@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { IoMdShare } from "react-icons/io";
 
 type Question = {
   id: number;
@@ -406,7 +407,7 @@ const MBTIQuiz: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsStarted(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md"
+            className="bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md"
           >
             Mulai Tes
           </button>
@@ -445,11 +446,11 @@ const MBTIQuiz: React.FC = () => {
               <button
                 type="button"
                 onClick={shareResult}
-                className="bg-blue-100 hover:bg-blue-200 text-blue-800 p-3 rounded-full transition duration-300"
+                className="bg-blue-100 hover:bg-blue-200 text-blue-800 p-3 rounded-full transition duration-300 hover:cursor-pointer"
                 aria-label="Share"
                 title="Share"
               >
-                <span className="text-lg">🔗</span>
+                <IoMdShare />
               </button>
             </div>
           </div>
@@ -458,7 +459,7 @@ const MBTIQuiz: React.FC = () => {
             <button
               type="button"
               onClick={restartQuiz}
-              className="flex-1 bg-[#F5BB1F] hover:bg-yellow-500 font-medium py-2 px-4 rounded-lg transition duration-300"
+              className="flex-1 bg-[#F5BB1F] hover:bg-yellow-500 font-medium py-2 px-4 rounded-lg transition duration-300 hover:cursor-pointer"
             >
               Ulangi Tes
             </button>
@@ -509,8 +510,8 @@ const MBTIQuiz: React.FC = () => {
                 onClick={() => handleAnswer(option.value)}
                 className={`w-full text-left p-4 rounded-lg border transition duration-300 ${
                   answers[currentQuestion] === option.value
-                    ? "border-blue-500 bg-blue-50 text-blue-800"
-                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                    ? "border-blue-500 bg-blue-50 text-blue-800 hover:cursor-pointer"
+                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
                 }`}
               >
                 {option.text}
@@ -527,7 +528,7 @@ const MBTIQuiz: React.FC = () => {
             className={`px-4 py-2 rounded-lg ${
               currentQuestion === 0
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:cursor-pointer"
             }`}
           >
             Sebelumnya
@@ -538,7 +539,7 @@ const MBTIQuiz: React.FC = () => {
             <button
               type="button"
               onClick={calculateResult}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer"
             >
               Lihat Hasil
             </button>
@@ -550,7 +551,7 @@ const MBTIQuiz: React.FC = () => {
               className={`px-4 py-2 rounded-lg ${
                 !answers[currentQuestion]
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-blue-600 text-white hover:bg-blue-700 hover:cursor-pointer"
               }`}
             >
               Selanjutnya
