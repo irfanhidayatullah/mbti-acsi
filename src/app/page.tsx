@@ -12,7 +12,6 @@ type Question = {
 };
 
 const MBTIQuiz: React.FC = () => {
-  // ===== Static data (memo untuk jaga stabilitas referensi) =====
   const questions: Question[] = useMemo(
     () => [
       {
@@ -249,9 +248,8 @@ const MBTIQuiz: React.FC = () => {
     []
   );
 
-  // ===== State =====
-  const [mounted, setMounted] = useState(false); // guard hydration
-  const [isStarted, setIsStarted] = useState(false); // fix tombol Mulai
+  const [mounted, setMounted] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<
     Record<number, Question["options"][number]["value"]>
@@ -260,7 +258,6 @@ const MBTIQuiz: React.FC = () => {
   const [mbtiResult, setMbtiResult] = useState("");
   const [savedResult, setSavedResult] = useState("");
 
-  // ===== Effects =====
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -270,18 +267,14 @@ const MBTIQuiz: React.FC = () => {
     try {
       const saved = localStorage.getItem("mbtiResult");
       if (saved) setSavedResult(saved);
-    } catch {
-      // abaikan error (mis. private mode)
-    }
+    } catch {}
   }, [mounted]);
 
-  // ===== Handlers =====
   const handleAnswer = (value: Question["options"][number]["value"]) => {
     const newAnswers = { ...answers, [currentQuestion]: value };
     setAnswers(newAnswers);
 
     if (currentQuestion < questions.length - 1) {
-      // jeda kecil biar ada “rasa” klik
       setTimeout(() => setCurrentQuestion((q) => q + 1), 200);
     }
   };
@@ -316,9 +309,7 @@ const MBTIQuiz: React.FC = () => {
 
     try {
       localStorage.setItem("mbtiResult", result);
-    } catch {
-      // abaikan jika tidak tersedia
-    }
+    } catch {}
   };
 
   const goToPrevious = () => {
@@ -352,29 +343,27 @@ const MBTIQuiz: React.FC = () => {
         alert("Hasil telah disalin ke clipboard!");
       }
     } catch {
-      // fallback aman
       alert("Gagal berbagi. Silakan tempel manual.");
     }
   };
 
-  // ===== Hydration guard =====
   if (!mounted) {
-    // skeleton ringan (opsional)
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white" />
     );
   }
 
-  // ===== Landing (sekarang pakai isStarted) =====
   if (!isStarted && !showResult) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col items-center justify-center p-6">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
-          <h1 className="text-3xl font-bold text-blue-800 mb-2">MBTIQA</h1>
-          <p className="text-blue-600 mb-6">MBTI Quiz ACSI Corp</p>
+          <h1 className="text-3xl font-bold text-[#0061C1]">MBTIQA</h1>
+          <p className="text-[#F5BB1F] mb-6 font-semibold">
+            MBTI Quiz ACSI Corp
+          </p>
 
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800">
               Kenali Dirimu Lewat MBTI!
             </h2>
             <p className="text-gray-600 mb-2 italic">
@@ -424,13 +413,12 @@ const MBTIQuiz: React.FC = () => {
         </div>
 
         <div className="mt-8 text-center text-gray-500 text-sm">
-          <p>© 2023 ACSI Corp. All rights reserved.</p>
+          <p>© 2025 ACSI Corp. All rights reserved.</p>
         </div>
       </div>
     );
   }
 
-  // ===== Result =====
   if (showResult && mbtiResult) {
     const resultData = mbtiTypes[mbtiResult as keyof typeof mbtiTypes];
 
@@ -470,24 +458,23 @@ const MBTIQuiz: React.FC = () => {
             <button
               type="button"
               onClick={restartQuiz}
-              className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+              className="flex-1 bg-[#F5BB1F] hover:bg-yellow-500 font-medium py-2 px-4 rounded-lg transition duration-300"
             >
               Ulangi Tes
             </button>
-            <button
+            {/* <button
               type="button"
               onClick={() => setShowResult(false)}
               className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
             >
               Kembali
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
     );
   }
 
-  // ===== Quiz =====
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-6">
